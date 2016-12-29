@@ -25,6 +25,7 @@
     "electron"
   ],
   "dependencies": {
+    "electron-context-menu": "^0.8.0",
     "electron-debug": "^1.0.0"
   },
   "devDependencies": {

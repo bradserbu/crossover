@@ -24,8 +24,14 @@ function createWindow() {
 	// }));
 
 	// mainWindow.loadURL('http://google.com');
+
 	mainWindow.loadURL('file://' + __dirname + '/index.html');
 	mainWindow.focus();
+
+	// let contents = mainWindow.webContents;
+	// console.log(contents);
+
+	// console.log(document);
 
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools();
