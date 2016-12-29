@@ -1,30 +1,7 @@
 'use strict';
 
+// ** Dependencies
 const util = require('util');
-
-function setValue(options) {
-
-	const selector = options.selector;
-	const value = options.value;
-
-	$(selector).val(value);
-}
-
-function submit(options) {
-
-	const form = options.form;
-
-	alert($(form).name);
-
-	$(form).trigger('submit');
-}
-
-function click(options) {
-
-	const selector = options.selector;
-
-	$(selector).trigger('click');
-}
 
 function attachHooks() {
 	$(document).click(function (event) {
@@ -103,7 +80,7 @@ window.onload = function () {
 
 		$(document).ready(function () {
 
-			alert('Document Ready');
+			alert('Document Ready...');
 			attachHooks();
 
 			// setValue({

@@ -1,8 +1,8 @@
 'use strict';
 
-function setValue($, options) {
+function setValue(options) {
 
-	console.log('$ = ', $);
+	alert('$:', $);
 
 	const selector = options.selector;
 	const value = options.value;
