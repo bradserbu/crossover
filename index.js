@@ -1,44 +1,64 @@
 'use strict';
+
+// ** Dependencies
 const electron = require('electron');
-
+const path = require('path');
+const url = require('url');
 const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 
-// adds debug features like hotkeys for triggering dev tools and reload
-require('electron-debug')();
-
-// prevent window being garbage collected
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function onClosed() {
-	// dereference the window
-	// for multiple windows store them in an array
-	mainWindow = null;
-}
+function createWindow() {
 
-function createMainWindow() {
-	const win = new electron.BrowserWindow({
-		width: 600,
-		height: 400
+	// Create the browser window.
+	mainWindow = new BrowserWindow({width: 1024, height: 768});
+
+	// and load the index.html of the app.
+	// mainWindow.loadURL(url.format({
+	//   pathname: path.join(__dirname, 'index.html'),
+	//   protocol: 'file:',
+	//   slashes: true
+	// }));
+
+	mainWindow.loadURL('http://google.com');
+
+	// Open the DevTools.
+	// mainWindow.webContents.openDevTools();
+
+	// Emitted when the window is closed.
+	mainWindow.on('closed', function () {
+		// Dereference the window object, usually you would store windows
+		// in an array if your app supports multi windows, this is the time
+		// when you should delete the corresponding element.
+		mainWindow = null
 	});
-
-	win.loadURL(`file://${__dirname}/index.html`);
-	win.on('closed', onClosed);
-
-	return win;
 }
 
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
-		app.quit();
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow);
+
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+
+	// On OS X it is common for applications and their menu bar
+	// to stay active until the user quits explicitly with Cmd + Q
+	// if (process.platform !== 'darwin') {
+	app.quit();
+	// }
+});
+
+app.on('activate', function () {
+	// On OS X it's common to re-create a window in the app when the
+	// dock icon is clicked and there are no other windows open.
+	if (mainWindow === null) {
+		createWindow();
 	}
 });
 
-app.on('activate', () => {
-	if (!mainWindow) {
-		mainWindow = createMainWindow();
-	}
-});
-
-app.on('ready', () => {
-	mainWindow = createMainWindow();
-});
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
