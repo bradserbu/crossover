@@ -1,0 +1,14 @@
+{
+  "name": "crossover",
+  "version": "1.0.0",
+  "description": "",
+  "main": "example.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC"
+}
