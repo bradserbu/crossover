@@ -1,21 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Electron boilerplate</title>
-		<link rel="stylesheet" href="index.css">
-	</head>
-	<body>
-		<div class="container">
-			<header>
-				<h1>Electron boilerplate</h1>
-			</header>
-			<section class="main">
-				<form>
-					<input type="button" id="test-button" value="Test Button" />
-				</form>
-			</section>
-			<footer></footer>
-		</div>
-	</body>
+<head>
+	<title>jQuery injection into webview preload</title>
+</head>
+<body style="overflow:hidden;">
+<webview id="webview" preload="./manipulateGoogle.js" src="http://google.com" style="position:absolute;width:100%;height:100%;"></webview>
+<script>
+	// need to have a script tag make webview work even if you don't plan to use it...
+</script>
+</body>
 </html>
