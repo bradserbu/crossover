@@ -2,6 +2,9 @@
 
 // ** Dependencies
 const util = require('util');
+const {ipcRenderer} = require('electron');
+
+function alert() {};
 
 function attachHooks() {
 	$(document).click(function (event) {
@@ -12,7 +15,11 @@ function attachHooks() {
 		alert("href: " + $(event.target).attr('href'));
 		alert("path: " + $(event.target).getPath());
 
-		// return false;
+		// showDialog();
+		ipcRenderer.sendToHost('new-action', {
+			id: $(event.target).attr('id'),
+			path: $(event.target).getPath()
+		});
 	});
 }
 
@@ -54,7 +61,7 @@ function loadJQuery(next) {
 		alert('Loading jQuery...');
 
 		const script = document.createElement("script");
-		script.src = "https://code.jquery.com/jquery-2.1.4.min.js";
+		script.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js";
 		document.body.appendChild(script);
 
 		// Call next() onload of the script
@@ -70,6 +77,16 @@ function loadJQuery(next) {
 	}
 }
 
+function showDialog() {
+	const {BrowserWindow} = require('electron').remote;
+
+	const dialog = new BrowserWindow();
+	dialog.loadURL('file://' + __dirname + '/../new-action/index.html');
+	dialog.focus();
+
+	return dialog;
+}
+
 /**
  * Inject JQuery script into page
  */
@@ -77,7 +94,6 @@ window.onload = function () {
 
 	// ** Run a scripted action
 	loadJQuery(function () {
-
 		$(document).ready(function () {
 
 			alert('Document Ready...');

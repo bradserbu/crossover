@@ -35,7 +35,7 @@ function createWindow() {
 
 	// mainWindow.loadURL('http://google.com');
 
-	mainWindow.loadURL('file://' + __dirname + '/index.html');
+	mainWindow.loadURL('file://' + __dirname + '/forms/main/index.html');
 	mainWindow.focus();
 
 	// let contents = mainWindow.webContents;

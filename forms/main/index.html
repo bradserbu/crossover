@@ -4,11 +4,13 @@
 	<title>Crossover Automated Test Creator</title>
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/photon.min.css">
-	<link rel="stylesheet" href="css/number-circle.css">
+	<link rel="stylesheet" href="../../css/photon.min.css">
+	<link rel="stylesheet" href="../../css/number-circle.css">
 
 	<!-- Javascript -->
-	<script src="js/menu.js" charset="utf-8"></script>
+	<script src="../../js/menu.js" charset="utf-8"></script>
+
+
 </head>
 <body>
 <div class="window">
@@ -32,27 +34,27 @@
 	<!-- Your app's content goes inside .window-content -->
 	<div class="window-content">
 		<div class="pane-group">
-			<div class="pane pane-sm sidebar">
-				<nav class="nav-group">
-					<h5 class="nav-group-title">
-						<div class="pull-right">
-							<button class="btn btn-default">
-								<span class="icon icon-plus"></span>
-							</button>
-						</div>
-						Tests
-					</h5>
-					<span class="nav-group-item">
-					<span class="icon icon-home"></span>
-					google-hello-word
-				  </span>
-				</nav>
-			</div>
+			<!--<div class="pane pane-sm sidebar">-->
+			<!--<nav class="nav-group">-->
+			<!--<h5 class="nav-group-title">-->
+			<!--<div class="pull-right">-->
+			<!--<button class="btn btn-default">-->
+			<!--<span class="icon icon-plus"></span>-->
+			<!--</button>-->
+			<!--</div>-->
+			<!--Tests-->
+			<!--</h5>-->
+			<!--<span class="nav-group-item">-->
+			<!--<span class="icon icon-home"></span>-->
+			<!--google-hello-word-->
+			<!--</span>-->
+			<!--</nav>-->
+			<!--</div>-->
 			<div class="pane pane-sm">
 				<ul class="list-group">
 					<li class="list-group-header">
 						<div class="pull-right">
-							<button class="btn btn-default">
+							<button id="btn-save" class="btn btn-default">
 								<span class="icon icon-floppy"></span>
 							</button>
 						</div>
@@ -69,7 +71,7 @@
 						<div class="numberCircle2 pull-left">2</div>
 						<div class="media-body">
 							<strong>Type Text</strong>
-							<p  style="font-style: italic">#lst-ib</p>
+							<p style="font-style: italic">#lst-ib</p>
 							<p>Hello World</p>
 						</div>
 					</li>
@@ -77,7 +79,7 @@
 						<div class="numberCircle2 pull-left">3</div>
 						<div class="media-body">
 							<strong>Submit</strong>
-							<p  style="font-style: italic">#lst</p>
+							<p style="font-style: italic">#lst</p>
 						</div>
 					</li>
 					<li class="list-group-item"><!-- Trailing <li> necessary for final border --></li>
@@ -91,15 +93,47 @@
 	</div>
 </div>
 <script>
+	(function () {
+		const window = require('electron').remote.require('electron-window');
+		const webView = document.getElementById("webview");
 
-	const webView = document.getElementById("webview");
+		// target=_blank support for webviews in electron
+		webView.addEventListener('new-window', options => {
+			// Open blank targets in current window
+			webView.src = options.url;
+		});
 
-	// target=_blank support for webviews in electron
-	webView.addEventListener('new-window', options => {
-		// Open blank targets in current window
-		webView.src = options.url;
-	});
+		// Process the data from the webview
+		webView.addEventListener('ipc-message', function (event) {
+			console.log({
+				channel: event.channel,
+				args: event.args
+			});
 
+			const win = window.createWindow({
+				width: 800,
+				height: 400
+			});
+
+			const args = {
+				data: event.args
+			};
+
+			win.showUrl(__dirname + '/../new-action/index.html', args);
+		});
+
+		function openForm(form) {
+			const {BrowserWindow} = require('electron').remote;
+			const dialog = new BrowserWindow();
+			dialog.loadURL('file://' + __dirname + '/../new-action/index.html');
+			dialog.focus();
+
+			return dialog;
+		}
+
+		const btnSave = document.getElementById("btn-save");
+		btnSave.addEventListener('click', () => openForm('new-action'));
+	})();
 </script>
 </body>
 </html>
