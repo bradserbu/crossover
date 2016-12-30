@@ -7,9 +7,8 @@ const {ipcRenderer} = require('electron');
 function alert() {};
 
 function attachHooks() {
-	$(document).click(function (event) {
+	$('body').click(function (event) {
 		alert("clicked: " + event.target);
-
 		alert("id: " + $(event.target).attr('id'));
 		alert("name: " + $(event.target).attr('name'));
 		alert("href: " + $(event.target).attr('href'));
@@ -20,6 +19,9 @@ function attachHooks() {
 			id: $(event.target).attr('id'),
 			path: $(event.target).getPath()
 		});
+
+		event.preventDefault();
+		return false;
 	});
 }
 
