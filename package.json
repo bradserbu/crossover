@@ -1,43 +1,10 @@
 {
-  "name": "crossover",
-  "productName": "Crossover Automated Test Creator",
-  "version": "0.0.0",
-  "description": "",
-  "license": "MIT",
-  "repository": "http://github.com/bradserbu/crossover",
-  "author": {
-    "name": "Brad Serbu",
-    "email": "bradserbu@bradserbu.com",
-    "url": "http://bradserbu.com"
-  },
+  "name": "proton-template-app",
+  "version": "1.0.0",
+  "description": "A simple template app for Proton",
+  "main": "app.js",
+  "author": "Connor Sears",
   "scripts": {
-    "test": "xo",
-    "start": "electron .",
-    "build": "electron-packager . --out=dist --asar --overwrite --all"
-  },
-  "files": [
-    "index.js",
-    "index.html",
-    "index.css"
-  ],
-  "keywords": [
-    "electron-app",
-    "electron"
-  ],
-  "dependencies": {
-    "electron-debug": "^1.0.0"
-  },
-  "devDependencies": {
-    "devtron": "^1.1.0",
-    "electron-packager": "^8.0.0",
-    "electron": "^1.0.1",
-    "xo": "^0.16.0"
-  },
-  "xo": {
-    "esnext": true,
-    "envs": [
-      "node",
-      "browser"
-    ]
+    "start": "electron ."
   }
 }

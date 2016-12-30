@@ -28,10 +28,6 @@ function createWindow() {
 	mainWindow.loadURL('file://' + __dirname + '/index.html');
 	mainWindow.focus();
 
-	mainWindow.webContents.on('new-window', function() {
-		console.log('NEW_WINDOW:', arguments);
-	});
-
 	// let contents = mainWindow.webContents;
 	// console.log(contents);
 
