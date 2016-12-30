@@ -1,0 +1,12 @@
+{
+  "url": "http://google.com",
+  "actions": {
+	"set-value": {
+	  "selector": "#lst-ib",
+	  "value": "Hello, World!"
+	},
+	"submit": {
+	  "selector": "#lst"
+	}
+  }
+}

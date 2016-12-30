@@ -1,14 +1,14 @@
 {
-  "name": "app",
-  "productName": "App",
+  "name": "crossover",
+  "productName": "Crossover Automated Test Creator",
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "repository": "user/repo",
+  "repository": "http://github.com/bradserbu/crossover",
   "author": {
-    "name": "",
-    "email": "",
-    "url": ""
+    "name": "Brad Serbu",
+    "email": "bradserbu@bradserbu.com",
+    "url": "http://bradserbu.com"
   },
   "scripts": {
     "test": "xo",
