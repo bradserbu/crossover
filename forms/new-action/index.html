@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>New Action</title>
+	<title>Add Step</title>
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- Insert this line above script imports  -->
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+	<script>if (typeof module === 'object') {
+		window.module = module;
+		module = undefined;
+	}</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 <div class="container">
-	<h2>Enter Text:</h2>
-	<p>Set the value of an input box on the screen.</p>
 	<form>
+		<div class="form-group">
+			<label for="sel1">Select list:</label>
+			<select class="form-control" id="sel1">
+				<option>Focus</option>
+				<option>Click</option>
+			</select>
+		</div>
 		<div class="form-group">
 			<label for="selector">Selector:</label>
 			<input type="text" class="form-control" id="selector" name="selector">
 			<!--<div class="checkbox">-->
-				<!--<label for="use-id"><input type="checkbox" value="" id="use-id" name="use-id">Use ID</label>-->
+			<!--<label for="use-id"><input type="checkbox" value="" id="use-id" name="use-id">Use ID</label>-->
 			<!--</div>-->
 		</div>
 		<div class="form-group">
@@ -28,17 +36,27 @@
 			<input type="text" class="form-control" id="text-value" name="text-value">
 		</div>
 		<div class="form-group">
+			<label for="validation">Validation:</label>
+			<textarea class="form-control" id="validation" name="validation" rows="5" ></textarea>
+		</div>
+		<div class="form-group">
 			<button type="button" class="btn btn-primary">Save</button>
 		</div>
 	</form>
-	<div class="container">
-		<h3>Popover Example</h3>
-		<a href="#" title="Dismissible popover" data-toggle="popover" data-trigger="focus" data-content="Click anywhere in the document to close this popover">Click me</a>
-	</div>
+	<!--<div class="container">-->
+	<!--<h3>Popover Example</h3>-->
+	<!--<a href="#" title="Dismissible popover" data-toggle="popover" data-trigger="focus" data-content="Click anywhere in the document to close this popover">Click me</a>-->
+	<!--</div>-->
 </div>
 <script>
-	$(document).ready(function(){
-		$('[data-toggle="popover"]').popover()
+	$(document).ready(function () {
+
+		const args = window.__args__;
+
+		const path = args.id || args.path || '';
+		$('#selector').val(path);
+
+//		$('[data-toggle="popover"]').popover();
 	})
 </script>
 </body>

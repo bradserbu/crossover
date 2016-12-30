@@ -110,25 +110,17 @@
 				args: event.args
 			});
 
-			const win = window.createWindow({
-				width: 800,
-				height: 400
-			});
-
-			const args = {
-				data: event.args
-			};
-
-			win.showUrl(__dirname + '/../new-action/index.html', args);
+			openForm('new-action', event.args[0]);
 		});
 
-		function openForm(form) {
-			const {BrowserWindow} = require('electron').remote;
-			const dialog = new BrowserWindow();
-			dialog.loadURL('file://' + __dirname + '/../new-action/index.html');
-			dialog.focus();
+		function openForm(form, args) {
+			const win = window.createWindow({
+				width: 800,
+				height: 600
+			});
 
-			return dialog;
+			win.showUrl(__dirname + `/../${form}/index.html`, args);
+			return win;
 		}
 
 		const btnSave = document.getElementById("btn-save");
