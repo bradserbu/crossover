@@ -2,11 +2,13 @@
 <html>
 <head>
 	<title>Crossover Automated Test Creator</title>
+	<link rel="stylesheet" href="index.css">
 </head>
 <body style="overflow:hidden;">
 <webview id="webview" preload="./preload.js" src="http://www.crossover.com"
 		 style="position:absolute;width:100%;height:100%;"></webview>
 <script>
+
 	const webView = document.getElementById("webview");
 
 	// target=_blank support for webviews in electron
