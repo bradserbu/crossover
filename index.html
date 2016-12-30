@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Photon</title>
+	<title>Crossover Automated Test Creator</title>
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="css/photon.min.css">
@@ -14,18 +14,34 @@
 <div class="window">
 
 	<!-- .toolbar-header sits at the top of your app -->
-	<header class="toolbar toolbar-header">
-		<div class="toolbar-actions">
-			<!--<input class="form-control" type="text" placeholder="Enter URL">-->
-		</div>
-	</header>
+	<!--<header class="toolbar toolbar-header">-->
+	<!--&lt;!&ndash;<h1 class="title">Crossover Automated Test Creator</h1>&ndash;&gt;-->
+	<!--<div class="toolbar-actions">-->
+	<!--&lt;!&ndash;<input class="form-control" type="text" placeholder="Enter URL">&ndash;&gt;-->
+	<!--<div class="btn-group">-->
+	<!--<button class="btn btn-default">-->
+	<!--<span class="icon icon-plus"></span>-->
+	<!--</button>-->
+	<!--<button class="btn btn-default">-->
+	<!--<span class="icon icon-floppy"></span>-->
+	<!--</button>-->
+	<!--</div>-->
+	<!--</div>-->
+	<!--</header>-->
 
 	<!-- Your app's content goes inside .window-content -->
 	<div class="window-content">
 		<div class="pane-group">
 			<div class="pane pane-sm sidebar">
 				<nav class="nav-group">
-					<h5 class="nav-group-title">Tests</h5>
+					<h5 class="nav-group-title">
+						<div class="pull-right">
+							<button class="btn btn-default">
+								<span class="icon icon-plus"></span>
+							</button>
+						</div>
+						Tests
+					</h5>
 					<span class="nav-group-item">
 					<span class="icon icon-home"></span>
 					google-hello-word
@@ -35,7 +51,11 @@
 			<div class="pane pane-sm">
 				<ul class="list-group">
 					<li class="list-group-header">
-						<!--<input class="form-control" type="text" placeholder="Search for someone">-->
+						<div class="pull-right">
+							<button class="btn btn-default">
+								<span class="icon icon-floppy"></span>
+							</button>
+						</div>
 						Steps
 					</li>
 					<li class="list-group-item">
@@ -63,9 +83,22 @@
 				</ul>
 			</div>
 			<div class="pane">
+				<webview id="webview" preload="./preload.js" src="http://www.crossover.com"
+						 style="position:absolute;width:100%;height:100%;"></webview>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+
+	const webView = document.getElementById("webview");
+
+	// target=_blank support for webviews in electron
+	webView.addEventListener('new-window', options => {
+		// Open blank targets in current window
+		webView.src = options.url;
+	});
+
+</script>
 </body>
 </html>
