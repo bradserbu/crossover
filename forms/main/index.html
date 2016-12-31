@@ -8,9 +8,12 @@
 	<link rel="stylesheet" href="../../css/number-circle.css">
 
 	<!-- Javascript -->
-	<script src="../../js/menu.js" charset="utf-8"></script>
-
-
+	<!-- Insert this line above script imports  -->
+	<script>if (typeof module === 'object') {
+		window.module = module;
+		module = undefined;
+	}</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="window">
@@ -51,38 +54,15 @@
 			<!--</nav>-->
 			<!--</div>-->
 			<div class="pane pane-sm">
-				<ul class="list-group">
+				<ul class="list-group" id="lst-steps">
 					<li class="list-group-header">
 						<div class="pull-right">
 							<button id="btn-save" class="btn btn-default">
 								<span class="icon icon-floppy"></span>
 							</button>
 						</div>
-						Steps
+						<h5 class="nav-group-title">Steps</h5>
 					</li>
-					<li class="list-group-item">
-						<div class="numberCircle2 pull-left">1</div>
-						<div class="media-body">
-							<strong>Load URL</strong>
-							<p>http://www.google.com</p>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="numberCircle2 pull-left">2</div>
-						<div class="media-body">
-							<strong>Type Text</strong>
-							<p style="font-style: italic">#lst-ib</p>
-							<p>Hello World</p>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="numberCircle2 pull-left">3</div>
-						<div class="media-body">
-							<strong>Submit</strong>
-							<p style="font-style: italic">#lst</p>
-						</div>
-					</li>
-					<li class="list-group-item"><!-- Trailing <li> necessary for final border --></li>
 				</ul>
 			</div>
 			<div class="pane">
@@ -94,7 +74,6 @@
 </div>
 <script>
 	(function () {
-		const window = require('electron').remote.require('electron-window');
 		const webView = document.getElementById("webview");
 
 		// target=_blank support for webviews in electron
@@ -114,6 +93,8 @@
 		});
 
 		function openForm(form, args) {
+			const window = require('electron').remote.require('electron-window');
+
 			const win = window.createWindow({
 				width: 800,
 				height: 600
@@ -123,8 +104,38 @@
 			return win;
 		}
 
+		const steps = [];
+
+		const {ipcRenderer} = require('electron');
+		ipcRenderer.on('append-step', (event, step) => {
+			appendStep(step);
+		});
+
+		function appendStep(step) {
+
+			const action = step.action;
+			const selector = step.selector;
+			const text = step.text;
+
+			const list = document.getElementById("lst-steps");
+			const num = steps.length + 1;
+
+			$(list).append(`<li class="list-group-item" id="step-${num}">
+					<div class="numberCircle2 pull-left">${num}</div>
+					<div class="media-body">
+					<strong>${action}</strong>
+					<p style="font-style: italic">${selector}</p>
+			</div>
+			</li>`);
+
+			steps.push(step);
+		}
+
 		const btnSave = document.getElementById("btn-save");
-		btnSave.addEventListener('click', () => openForm('new-action'));
+		btnSave.addEventListener('click', () => appendStep({
+			action: 'click',
+			selector: '#lst'
+		}));
 	})();
 </script>
 </body>

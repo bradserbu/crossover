@@ -79,16 +79,6 @@ function loadJQuery(next) {
 	}
 }
 
-function showDialog() {
-	const {BrowserWindow} = require('electron').remote;
-
-	const dialog = new BrowserWindow();
-	dialog.loadURL('file://' + __dirname + '/../new-action/index.html');
-	dialog.focus();
-
-	return dialog;
-}
-
 /**
  * Inject JQuery script into page
  */

@@ -1,0 +1,12 @@
+{
+  "load-url": {
+	"url": "http://google.com"
+  },
+  "set-value": {
+	"selector": "#lst-ib",
+	"text": "Hello, World!"
+  },
+  "submit": {
+	"selector": "#lst"
+  }
+}

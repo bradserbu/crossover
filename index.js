@@ -6,6 +6,7 @@ const path = require('path');
 const url = require('url');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const {ipcMain} = require('electron');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -34,6 +35,13 @@ function createWindow() {
 	// }));
 
 	// mainWindow.loadURL('http://google.com');
+
+	const steps = [];
+	ipcMain.on('add-step', (event, step) => {
+		console.log('ADD_STEP:', step);
+
+		mainWindow.webContents.send('append-step', step);
+	});
 
 	mainWindow.loadURL('file://' + __dirname + '/forms/main/index.html');
 	mainWindow.focus();
