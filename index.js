@@ -55,32 +55,34 @@ function createWindow() {
 			mainWindow.webContents.send('append-step', step);
 		}
 
-		function loadTestFile(path) {
+		function loadTestFile(fileName) {
 
 			// Clear them from the UI
 			steps.length = 0;
 			mainWindow.webContents.send('clear-steps');
 
 			// Remove All Steps
-			const script = fs.readJsonSync(path, {throws: false});
+			const script = fs.readJsonSync(fileName, {throws: false});
 			console.log('STEPS:', script.steps);
 
 			script.steps.forEach(addStep);
 		}
 
+		// Handles save event from main form
 		ipcMain.on('save-steps', (e, steps) => {
 			console.log('SAVE_STEPS', steps);
 
+			// Show native save dialog
 			electron.dialog.showSaveDialog(function (fileName) {
 
-				// ** Save the file to disk
+				// Write steps to file
 				fs.writeJsonSync(fileName, {
 					steps: steps
 				});
 			});
 		});
 
-		loadTestFile('/Users/brads/Projects/crossover/tests/crossover-available-jobs.json');
+		loadTestFile('./tests/google-hello-world.json');
 	});
 
 	// Open the DevTools.

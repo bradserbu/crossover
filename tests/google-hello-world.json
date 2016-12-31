@@ -2,7 +2,7 @@
   "steps": [
 	{
 	  "action": "Load URL",
-	  "selector": "https://www.google.com.ua/webhp?hl=all&gws_rd=ssl"
+	  "selector": "https://www.google.com"
 	},
 	{
 	  "action": "Enter Text",
@@ -11,7 +11,7 @@
 	},
 	{
 	  "action": "submit",
-	  "selector": "#lst"
+	  "selector": "#tsf"
 	}
   ]
 }
