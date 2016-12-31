@@ -7,6 +7,10 @@
 	{
 	  "action": "Click",
 	  "selector": "html>body>div:eq(1)>div>footer>div:eq(1)>div:eq(1)>div:eq(0)>div:eq(1)>div>div>p:eq(2)>a"
+	},
+	{
+	  "action": "Enter Text",
+	  "text": "Cheif"
 	}
   ]
 }

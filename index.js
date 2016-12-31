@@ -68,6 +68,18 @@ function createWindow() {
 			script.steps.forEach(addStep);
 		}
 
+		ipcMain.on('save-steps', (e, steps) => {
+			console.log('SAVE_STEPS', steps);
+
+			electron.dialog.showSaveDialog(function (fileName) {
+
+				// ** Save the file to disk
+				fs.writeJsonSync(fileName, {
+					steps: steps
+				});
+			});
+		});
+
 		loadTestFile('/Users/brads/Projects/crossover/tests/crossover-available-jobs.json');
 	});
 

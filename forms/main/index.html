@@ -106,6 +106,18 @@
 
 	const steps = [];
 
+	// ** Save steps to file on save
+	const btnSave = document.getElementById("btn-save");
+	btnSave.addEventListener('click', () => {
+
+		ipcRenderer.send('save-steps', steps);
+
+//			appendStep({
+//				action: 'click',
+//				selector: '#lst'
+//			})
+	});
+
 	function evaluateJS(js) {
 		alert('JS:' + js);
 		webView.executeJavaScript(js);
@@ -171,21 +183,6 @@
 	const {ipcRenderer} = require('electron');
 	ipcRenderer.on('append-step', (event, step) => {
 		appendStep(step);
-	});
-
-	// ** Execute a step
-	ipcRenderer.on('run-step', (event, step) => {
-		alert('RUN_STEP:', step);
-	});
-
-	const btnSave = document.getElementById("btn-save");
-	btnSave.addEventListener('click', () => {
-
-
-//			appendStep({
-//				action: 'click',
-//				selector: '#lst'
-//			})
 	});
 </script>
 </body>
