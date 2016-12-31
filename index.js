@@ -7,6 +7,7 @@ const url = require('url');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const {ipcMain} = require('electron');
+const fs = require('fs-extra');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -36,20 +37,39 @@ function createWindow() {
 
 	// mainWindow.loadURL('http://google.com');
 
-	const steps = [];
-	ipcMain.on('add-step', (event, step) => {
-		console.log('ADD_STEP:', step);
-
-		mainWindow.webContents.send('append-step', step);
-	});
-
 	mainWindow.loadURL('file://' + __dirname + '/forms/main/index.html');
 	mainWindow.focus();
 
-	// let contents = mainWindow.webContents;
-	// console.log(contents);
+	// Load steps from script file after the page loads
+	mainWindow.webContents.on('did-finish-load', () => {
+		console.log('MAIN_FORM_LOADED');
 
-	// console.log(document);
+		const steps = [];
+		ipcMain.on('add-step', (e, step) => addStep(step));
+
+		function addStep(step) {
+			console.log('ADD_STEP:', step);
+			steps.push(step);
+
+			// Add to UI
+			mainWindow.webContents.send('append-step', step);
+		}
+
+		function loadTestFile(path) {
+
+			// Clear them from the UI
+			steps.length = 0;
+			mainWindow.webContents.send('clear-steps');
+
+			// Remove All Steps
+			const script = fs.readJsonSync(path, {throws: false});
+			console.log('STEPS:', script.steps);
+
+			script.steps.forEach(addStep);
+		}
+
+		loadTestFile('/Users/brads/Projects/crossover/tests/google-hello-world.json');
+	});
 
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools();

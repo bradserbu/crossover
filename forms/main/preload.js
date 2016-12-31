@@ -15,7 +15,7 @@ function attachHooks() {
 		alert("path: " + $(event.target).getPath());
 
 		// showDialog();
-		ipcRenderer.sendToHost('new-action', {
+		ipcRenderer.sendToHost('new-step', {
 			id: $(event.target).attr('id'),
 			path: $(event.target).getPath()
 		});

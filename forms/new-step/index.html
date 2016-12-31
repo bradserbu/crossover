@@ -47,10 +47,10 @@
 
 		const args = window.__args__;
 
-		const path = args.id ? `#${args.id}` : args.path || '';
-		$('#selector').val(path);
+		const selector = args.id ? `#${args.id}` : args.path || '';
+		$('#selector').val(selector);
 
-		$('#btn-save').click(e => {
+		$('#btn-save').click(() => {
 			const {ipcRenderer} = require('electron');
 
 			const step = {

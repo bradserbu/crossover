@@ -1,12 +1,17 @@
 {
-  "load-url": {
-	"url": "http://google.com"
-  },
-  "set-value": {
-	"selector": "#lst-ib",
-	"text": "Hello, World!"
-  },
-  "submit": {
-	"selector": "#lst"
-  }
+  "steps": [
+	{
+	  "action": "load-url",
+	  "selector": "http://google.com"
+	},
+	{
+	  "action": "set-value",
+	  "selector": "#lst-ib",
+	  "text": "Hello, World!"
+	},
+	{
+	  "action": "submit",
+	  "selector": "#lst"
+	}
+  ]
 }
