@@ -73,70 +73,120 @@
 	</div>
 </div>
 <script>
-	(function () {
-		const webView = document.getElementById("webview");
 
-		// target=_blank support for webviews in electron
-		webView.addEventListener('new-window', options => {
-			// Open blank targets in current window
-			webView.src = options.url;
+	const webView = document.getElementById("webview");
+
+	// target=_blank support for webviews in electron
+	webView.addEventListener('new-window', options => {
+		// Open blank targets in current window
+		webView.src = options.url;
+	});
+
+	// Process the data from the webview
+	webView.addEventListener('ipc-message', function (event) {
+		console.log({
+			channel: event.channel,
+			args: event.args
 		});
 
-		// Process the data from the webview
-		webView.addEventListener('ipc-message', function (event) {
-			console.log({
-				channel: event.channel,
-				args: event.args
-			});
+		openForm('new-step', event.args[0]);
+	});
 
-			openForm('new-step', event.args[0]);
+	function openForm(form, args) {
+		const window = require('electron').remote.require('electron-window');
+
+		const win = window.createWindow({
+			width: 800,
+			height: 600
 		});
 
-		function openForm(form, args) {
-			const window = require('electron').remote.require('electron-window');
+		win.showUrl(__dirname + `/../${form}/index.html`, args);
+		return win;
+	}
 
-			const win = window.createWindow({
-				width: 800,
-				height: 600
-			});
+	const steps = [];
 
-			win.showUrl(__dirname + `/../${form}/index.html`, args);
-			return win;
+	function evaluateJS(js) {
+		alert('JS:' + js);
+		webView.executeJavaScript(js);
+	}
+
+	function runStep(num) {
+		const step = steps[num - 1];
+
+		alert('RUN_STEP:' + JSON.stringify(step));
+
+		switch (step.action.toLowerCase()) {
+			case 'inspect':
+				evaluateJS(`alert(JSON.stringify($("${step.selector}")))`);
+				break;
+			case 'load url':
+				const url = step.selector;
+				webView.loadURL(url);
+				break;
+			case 'enter text':
+				evaluateJS(`$("${step.selector}").val("${step.text}")`);
+				break;
+			case 'click':
+//				evaluateJS(`$("${step.selector}")`);
+				evaluateJS(`$("${step.selector}")[0].click()`);
+//				evaluateJS(`document.getElementById("${step.selector}").click()`);
+				break;
+			case 'focus':
+				evaluateJS(`$("${step.selector}").focus()`);
+				break;
+			case 'submit':
+				evaluateJS(`$("${step.selector}").submit()`);
+				break;
+			default:
+				alert('ACTION_NOT_SUPPORTED:' + step.action);
+				break;
 		}
+	}
 
-		const steps = [];
+	function appendStep(step) {
 
-		const {ipcRenderer} = require('electron');
-		ipcRenderer.on('append-step', (event, step) => {
-			appendStep(step);
-		});
+		const action = step.action;
+		const selector = step.selector;
+		const text = step.text;
 
-		function appendStep(step) {
+		const list = document.getElementById("lst-steps");
+		const num = steps.length + 1;
 
-			const action = step.action;
-			const selector = step.selector;
-			const text = step.text;
-
-			const list = document.getElementById("lst-steps");
-			const num = steps.length + 1;
-
-			$(list).append(`<li class="list-group-item" id="step-${num}">
+		$(list).append(`<li class="list-group-item" id="step-${num}">
 					<div class="numberCircle2 pull-left">${num}</div>
+					<div class="pull-right">
+						<button class="btn btn-default" onclick="runStep(${num})"><span class="icon icon-play"></span></button>
+					</div>
 					<div class="media-body">
 					<strong>${action}</strong>
 					<p style="font-style: italic">${selector}</p>
+
 			</div>
 			</li>`);
 
-			steps.push(step);
-		}
+		steps.push(step);
+	}
 
-		const btnSave = document.getElementById("btn-save");
-		btnSave.addEventListener('click', () => appendStep({
-			action: 'click',
-			selector: '#lst'
-		}));
-	})();
+	const {ipcRenderer} = require('electron');
+	ipcRenderer.on('append-step', (event, step) => {
+		appendStep(step);
+	});
+
+	// ** Execute a step
+	ipcRenderer.on('run-step', (event, step) => {
+		alert('RUN_STEP:', step);
+	});
+
+	const btnSave = document.getElementById("btn-save");
+	btnSave.addEventListener('click', () => {
+
+
+//			appendStep({
+//				action: 'click',
+//				selector: '#lst'
+//			})
+	});
 </script>
 </body>
 </html>

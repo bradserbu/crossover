@@ -50,7 +50,7 @@
 		const selector = args.id ? `#${args.id}` : args.path || '';
 		$('#selector').val(selector);
 
-		$('#btn-save').click(() => {
+		$('#btn-save').click(e => {
 			const {ipcRenderer} = require('electron');
 
 			const step = {

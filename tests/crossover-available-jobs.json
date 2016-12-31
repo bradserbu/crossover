@@ -1,0 +1,12 @@
+{
+  "steps": [
+	{
+	  "action": "Load URL",
+	  "selector": "http://crossover.com"
+	},
+	{
+	  "action": "Click",
+	  "selector": "html>body>div:eq(1)>div>footer>div:eq(1)>div:eq(1)>div:eq(0)>div:eq(1)>div>div>p:eq(2)>a"
+	}
+  ]
+}

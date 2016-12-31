@@ -68,7 +68,7 @@ function createWindow() {
 			script.steps.forEach(addStep);
 		}
 
-		loadTestFile('/Users/brads/Projects/crossover/tests/google-hello-world.json');
+		loadTestFile('/Users/brads/Projects/crossover/tests/crossover-available-jobs.json');
 	});
 
 	// Open the DevTools.

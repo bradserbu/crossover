@@ -1,11 +1,11 @@
 {
   "steps": [
 	{
-	  "action": "load-url",
-	  "selector": "http://google.com"
+	  "action": "Load URL",
+	  "selector": "https://www.google.com.ua/webhp?hl=all&gws_rd=ssl"
 	},
 	{
-	  "action": "set-value",
+	  "action": "Enter Text",
 	  "selector": "#lst-ib",
 	  "text": "Hello, World!"
 	},

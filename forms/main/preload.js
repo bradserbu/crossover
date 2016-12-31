@@ -4,25 +4,45 @@
 const util = require('util');
 const {ipcRenderer} = require('electron');
 
-function alert() {};
+let clickHookDisabled = false;
 
-function attachHooks() {
-	$('body').click(function (event) {
+function enableHooks() {
+
+	// alert('HOOKS_ENABLED');
+
+	$(document).on('contextmenu', function (event) {
 		alert("clicked: " + event.target);
 		alert("id: " + $(event.target).attr('id'));
-		alert("name: " + $(event.target).attr('name'));
+		// alert("name: " + $(event.target).attr('name'));
 		alert("href: " + $(event.target).attr('href'));
 		alert("path: " + $(event.target).getPath());
-
 		// showDialog();
+
 		ipcRenderer.sendToHost('new-step', {
 			id: $(event.target).attr('id'),
 			path: $(event.target).getPath()
 		});
-
-		event.preventDefault();
-		return false;
 	});
+
+	// $('body').click(function (event) {
+	// 	// Propagate the event
+	// 	// if (clickHookDisabled) return true;
+    //
+	// 	alert("clicked: " + event.target);
+	// 	// alert("id: " + $(event.target).attr('id'));
+	// 	// alert("name: " + $(event.target).attr('name'));
+	// 	// alert("href: " + $(event.target).attr('href'));
+	// 	// alert("path: " + $(event.target).getPath());
+    //
+	// 	// showDialog();
+	// 	ipcRenderer.sendToHost('new-step', {
+	// 		id: $(event.target).attr('id'),
+	// 		path: $(event.target).getPath()
+	// 	});
+    //
+	// 	event.stopPropagation();
+	// 	return false;
+	// });
 }
 
 function extendJQuery() {
@@ -57,10 +77,10 @@ function loadJQuery(next) {
 
 	const jQuery = window.jQuery;
 
-	alert('Looking for jquery...' + jQuery);
+	// alert('Looking for jquery...' + jQuery);
 
 	if (util.isNullOrUndefined(jQuery)) {
-		alert('Loading jQuery...');
+		// alert('Loading jQuery...');
 
 		const script = document.createElement("script");
 		script.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js";
@@ -68,12 +88,12 @@ function loadJQuery(next) {
 
 		// Call next() onload of the script
 		script.onload = script.onreadystatechange = function () {
-			alert('JQuery loaded');
+			// alert('JQuery loaded');
 			extendJQuery();
 			next();
 		};
 	} else {
-		alert('jQuery already loaded...');
+		// alert('jQuery already loaded...');
 		extendJQuery();
 		next();
 	}
@@ -88,8 +108,8 @@ window.onload = function () {
 	loadJQuery(function () {
 		$(document).ready(function () {
 
-			alert('Document Ready...');
-			attachHooks();
+			// alert('Document Ready...');
+			enableHooks();
 
 			// setValue({
 			// 	selector: "#lst-ib",
